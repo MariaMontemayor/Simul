@@ -1,0 +1,230 @@
+\documentclass[12pt]{amsart}
+
+\addtolength{\hoffset}{-2.25cm}
+\addtolength{\textwidth}{4.5cm}
+\addtolength{\voffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{15pt}
+\usepackage{listings}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[sort&compress, numbers]{natbib}
+\usepackage{amssymb}
+\usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+
+
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{ marvosym }
+\newcommand{\ds}{\displaystyle}
+
+
+\pagestyle{myheadings}
+
+\setlength{\parindent}{0in}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\thispagestyle{empty}
+
+{\scshape Simulación} \hfill {\scshape \Large Tarea 1: Movimiento Browniano} \hfill {\scshape 24/Feb/2021}
+\author{C. María Montemayor Palos}
+\maketitle
+
+\hrule
+\hrule
+\bigskip
+
+\bigskip
+
+\section{Objetivo}
+El objetivo de esta práctica es examinar sistemáticamente los efectos de la dimensión en el tiempo de regreso al origen del movimiento Browniano para dimensiones 1 a 5 en incrementos lineales de uno, variando el número de pasos de la caminata como potencias de dos con exponente de 4 a 9 en incrementos lineales de uno, realizando 30 repeticiones del experimento para cada combinación.
+
+\section{Metodología}
+Se utilizó el programa R versión 4.0.4 \cite{R} para Windows para llevar a cabo el movimiento Browniano. Se generó un código para evaluar el tiempo del regreso al origen de una partícula que se mueve al azar, tomando como código base la rutina de caminata \cite{Dra.Elisa} de la partícula.
+
+Se variaron los pasos de la caminata con potencias de 2 con exponentes de 4 a 9 programando 30 repeticiones para cada experimento en dimensiones de 1 a 5. Se tomó como apoyo el repositorio de CrisAE. \cite{CrisAE}
+
+\section{Código}
+\begin{lstlisting}
+#tarea1.R
+
+library (parallel)
+origenes=data.frame()
+reg=data.frame()
+
+for (expo in 4:9){
+  caminata <- 2**expo #en pasos de 2 con exponenciales de 4 a 9
+  for(dim in 1:5){ #dimensiones de 1 a 5
+    for(rep in 1:30){ #repeticiones de 1 a 30
+      par <- rep(0,dim)
+      regreso <- FALSE
+      for(t in 1:caminata){
+        cambiar <- sample(1:dim,1)
+        if(runif(1)<0.5){
+          par[cambiar] <- par[cambiar] + 1
+        }else{
+          par[cambiar] <- par[cambiar]-1
+        }
+        if(all(par==0)){
+          origenes <- rbind(origenes,c(caminata,dim,t))
+          regreso=TRUE
+          break
+        }
+      }
+      if(!regreso){nreg=rbind(reg,c(caminata,dim))}
+    }
+  }
+}
+
+names(origenes)=c('caminata','dimension','tiempo')
+names(reg)=c('caminata','dimension')
+
+print(origenes)
+
+\end{lstlisting}
+
+\section{Resultados y discusión}
+Para observar su efecto en el tiempo de regreso al punto de origen de la partícula, se aumentaron de manera lineal los pasos de 2 con exponentes de 4 a 9, siendo el máximo de regreso 160, como se observa en la Tabla 1.
+
+\bigskip
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+     & caminata & dimension & tiempo \\ [0.5ex] 
+ \hline\hline
+ 1 & 16 & 1 & 6 \\ 
+ \hline
+ 57 & 32 & 1 & 20 \\
+ \hline
+ 113 & 64 & 1 & 10 \\
+ \hline
+ 169 & 128 & 1 & 48 \\
+ \hline
+ 254 & 256 & 1 & 160 \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+\bigskip
+\begin{center} \caption{Tabla 1: caminata en la dimension 1 y su respectiva duración.\label{tabla:1}}
+\end{center}
+
+
+\bigskip
+Se logra apreciar que en la tabla 2, el tiempo máximo de regreso es de 428 para la dimensión 2.
+
+\bigskip
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+     & caminata & dimension & tiempo \\ [0.5ex] 
+ \hline\hline
+ 21 & 16 & 2 & 4 \\ 
+ \hline
+ 22 & 16 & 2 & 2 \\
+ \hline
+ 262 & 256 & 2 & 166 \\
+ \hline
+ 266 & 256 & 2 & 144 \\
+ \hline
+ 322 & 512 & 2 & 428 \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+\bigskip
+\begin{center} \caption{Tabla 2: caminata en la dimension 2 y su respectiva duración.\label{tabla:2}}
+\end{center}
+
+\bigskip
+En la tabla 3 el tiempo máximo de regreso es de 132 para la dimensión 3.
+
+\bigskip
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+     & caminata & dimension & tiempo \\ [0.5ex] 
+ \hline\hline
+ 37 & 16 & 3 & 10 \\ 
+ \hline
+ 82 & 32 & 3 & 10 \\
+ \hline
+ 148 & 64 & 3 & 46 \\
+ \hline
+ 218 & 128 & 3 & 60 \\
+ \hline
+ 275 & 256 & 3 & 132 \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+\bigskip
+\begin{center} \caption{Tabla 3: caminata en la dimension 3 y su respectiva duración.\label{tabla:3}}
+\end{center}
+
+\bigskip
+\bigskip
+
+El tiempo máximo de regreso es de 52 para la dimensión 4 como se aprecia en la tabla 4.
+
+\bigskip
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+     & caminata & dimension & tiempo \\ [0.5ex] 
+ \hline\hline
+ 38 & 16 & 4 & 2 \\ 
+ \hline
+ 88 & 32 & 4 & 6 \\
+ \hline
+ 159 & 64 & 4 & 52 \\
+ \hline
+ 224 & 128 & 4 & 6 \\
+ \hline
+ 285 & 256 & 4 & 4 \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+\bigskip
+\begin{center} \caption{Tabla 4: caminata en la dimension 4 y su respectiva duración.\label{tabla:4}}
+\end{center}
+
+\bigskip
+Se logra apreciar que en la tabla 5, el tiempo máximo de regreso es de 6 para la dimensión 5 en la caminata 16 y 32.
+
+\bigskip
+\begin{center}
+ \begin{tabular}{||c c c c||} 
+ \hline
+     & caminata & dimension & tiempo \\ [0.5ex] 
+ \hline\hline
+ 43 & 16 & 5 & 6 \\ 
+ \hline
+ 44 & 16 & 5 & 2 \\
+ \hline
+ 45 & 16 & 5 & 2 \\
+ \hline
+ 93 & 32 & 5 & 4 \\
+ \hline
+ 94 & 32 & 5 & 6 \\ [1ex] 
+ \hline
+\end{tabular}
+\end{center}
+\bigskip
+\begin{center} \caption{Tabla 5: caminata en la dimension 2 y su respectiva duración.\label{tabla:5}}
+\end{center}
+
+\bigskip
+Se puede concluir que la partícula tarda más en regresar al punto de origen o regresa un menor número de veces cuando se encuentra en la dimensión 5, por lo tanto entre menor sea la cantidad de dimensiones, será mayor el tiempo de regreso de la partícula al punto de origen.
+
+\bibliography{Dra.Elisa}
+\bibliographystyle{plainnat}
+
+
+\bigskip
+
+
+
+
+\end{document}
