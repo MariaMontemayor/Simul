@@ -41,7 +41,6 @@
 \hrule
 \bigskip
 
-\bigskip
 
 \section{Objetivo}
 El objetivo de esta práctica es examinar sistemáticamente los efectos de la dimensión en el tiempo de regreso al origen del movimiento Browniano para dimensiones uno a cinco en incrementos lineales de uno, variando el número de pasos de la caminata como potencias de dos con exponente de cuatro a nueve en incrementos lineales de uno, realizando treinta repeticiones del experimento para cada combinación.
@@ -52,12 +51,8 @@ Se utilizó el programa R versión 4.0.4 \cite{R} para Windows para llevar a cab
 Se variaron los pasos de la caminata con potencias de dos con exponentes de cuatro a nueve programando treinta repeticiones para cada experimento en dimensiones de uno a cinco. Se tomó como apoyo el repositorio de CrisAE \cite{CrisAE}.
 
 \section{Código}
+Se muestra una parte del código en la cual se determinan las dimensiones con pasos de dos elevado a los exponentes de cuatro a nueve respectivamente.
 \begin{lstlisting}
-#Tarea1.R correcta
-library (parallel)
- 
-eucl<-FALSE
-
 for (dim in 1:5){ #en dimensiones de 1 a 5
   for(expo in 4:9){ #exponencial de 4 a 9
     caminata <- 2**expo #en pasos de 2 elevado a los exponentes
@@ -76,42 +71,15 @@ for (dim in 1:5){ #en dimensiones de 1 a 5
           }
           if(all(par==0)){
             return(t)
-            regreso=TRUE
-            break
-          }
-        }
-        return(-1)
-      }
-    }
-    regresaron<-origenes[origenes>0]
-    cat(dim, caminata, length(origenes[origenes==-1])/30, '\n')
-    print(summary(regresaron))
-  }
-}
-source("distance.R")
-source("caminata.R")
-caminata(5, 30, ed.orig)
-caminata(5, 30, md.orig)
-
-if (eucl) {
-  png("p1er.png")
-  boxplot(data.matrix(datos), use.cols=FALSE, 
-          xlab="Dimensi\u{F3}n", ylab="Distancia m\u{E1}xima", col=rainbow(5))
-} else {
-  png("p1mr.png")
-  boxplot(data.matrix(datos), use.cols=FALSE, 
-          xlab="Dimensi\u{F3}n", ylab="Distancia m\u{E1}xima",col=rainbow(5))
-}
-graphics.off()
-
 
 
 \end{lstlisting}
 
 \section{Resultados y discusión}
-Para observar su efecto en el tiempo de regreso al punto de origen de la partícula, se aumentaron de manera lineal los pasos de 2 con exponentes de 4 a 9, siendo el máximo de regreso 160.
-Se observa en la cuadro 1 
+Para observar su efecto en el tiempo de regreso al punto de origen de la partícula, se aumentaron de manera lineal los pasos de 2 con exponentes de 4 a 9 como se aprecia en los siguientes cuadros. 
 {
+\bigskip
+\medskip
 \begin{table}[ht]
     \caption{Caminata de 16 pasos: $dimensión$ de uno a cinco respectivamente en la que se mueve la partícula, después se proporcionan los valores de mínimo, máximo, promedio ($\mu$) y el porcentaje (\%) de partículas que nunca regresaron.}
     \label{datos}
@@ -219,23 +187,30 @@ Se observa en la cuadro 1
     \end{tabular}
 \end{table}
 }
-\clearpage
 \\
 \\
 \\
-\hvfill
-Se generó un diagrama de caja-bigote para visualizar de manera gráfica la caminata de la partícula en las cinco dimensiones.
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+Se generó un diagrama de caja-bigote (ver figura 1) para visualizar de manera gráfica la distancia máxima de caminata de la partícula en las cinco dimensiones.
+\bigskip
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.5\textwidth]{p1mr.png}
-    \caption{\label{fig1}Diagrama caja-bigotes}
+    \caption{\label{fig1}Diagrama caja-bigote}
     \label{fig:figura1}
 \end{figure}
 
-\bigskip
 Se puede concluir que la partícula tarda más en regresar al punto de origen o regresa un menor número de veces cuando se encuentra en la dimensión 5, por lo tanto entre menor sea la cantidad de dimensiones, mayor será el tiempo de regreso de la partícula al punto de origen.
 \bigskip
-
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
 \bibliography{Dra.Elisa}
 \bibliographystyle{plainnat}
 
