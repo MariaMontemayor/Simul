@@ -1,0 +1,102 @@
+\documentclass[12pt]{amsart}
+
+\addtolength{\hoffset}{-2.25cm}
+\addtolength{\textwidth}{4.5cm}
+\addtolength{\voffset}{-2.5cm}
+\addtolength{\textheight}{5cm}
+\setlength{\parskip}{0pt}
+\setlength{\parindent}{15pt}
+\usepackage{listings}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage[spanish]{babel}
+\usepackage[sort&compress, numbers]{natbib}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage[colorlinks = true, linkcolor = black, citecolor = black, final]{hyperref}
+
+
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{ marvosym }
+\newcommand{\ds}{\displaystyle}
+
+
+\pagestyle{myheadings}
+
+\setlength{\parindent}{0in}
+\begin{document}
+
+\pagestyle{empty}
+
+
+
+\thispagestyle{empty}
+
+{\scshape Simulación} \hfill {\scshape \Large Tarea 2: Teoría de Colas} \hfill  {\scshape 03/Mar/2021}
+\author{C. María Montemayor Palos}
+\maketitle
+
+\hrule
+\hrule
+\bigskip
+
+
+\section{Objetivo}
+El objetivo de ésta tarea es examinar las diferencias en los tiempos de ejecución en distintos ordenamientos de números primos y no primos de un vector de entrada \cite{dra}, que contene números primos descargados de Primes Page \cite{primespage} y no primos de al menos nueve dígitos, así como investigar el efecto de la proporción de éstos.
+
+
+\section{Metodología}
+Se utilizó el programa R versión 4.0.4 \cite{R} para Windows para llevar a cabo la ejecución de la tarea asignada.En primer lugar, se determina el número de núcleos disponibles en el sistema para que se realice la paralelización; en el presente caso, el sistema utilizado posee cuatro núcleos.
+
+\section{Código}
+Se determinó el número de núcleos utilizando el siguiente código.
+\begin{lstlisting}
+     library(parallel)
+     detectCores()
+     [1] 4
+\end{lstlisting}
+Posteriormente, se genera el código que examina el tiempo de ejecución \cite{dra}, bajo distintos órdenes de números primos y no primos. Para ello se crea un vector que contenga a los números primos descargados, de los cuales se seleccionaron los primeros 80 números primos (desde 179424691 hasta 179426129).
+\begin{lstlisting}
+    numprimos=read.csv("primes.txt", header = FALSE)
+    n=dim(numprimos)
+    print(length(numprimos))
+\end{lstlisting}
+A partir de la rutina se examina si un número es primo o no \cite{dra}, se calcula el tiempo de ejecución de dicho algoritmo para el vector de tarea, realizando diez réplicas y generando tres ordenamientos distintos: el orden original (primero los primos y luego los no primos), el invertido (primero los no primos y luego los primos) y el aleatorio.  Finalmente, se realiza un gráfico de los tiempos de ejecución obtenidos y además se obtienen los datos de estadística descriptiva.
+\section{Resultados y discusión}
+Los tiempos de ejecución promedio están registrados en el cuadro 1, en donde se observa que el orden original tuvo el menor tiempo de ejecición promedio, seguido por el orden invertido y aleatorio con promedios iguales. 
+{
+\bigskip
+\medskip
+\begin{table}[ht]
+    \caption{Estadística Descriptiva}
+    \label{datos}
+    \centering
+    \begin{tabular}{|r|r|r|r|r|r|r|}
+       \hline
+        $Orden$&$Mín$&$1er. Qu$&$Mediana$&$Media$&$3er. Qu$&$Máx$ \\
+        \hline
+        Original & 0.200 & 0.200 & 0.205 & 0.231 & 0.240 & 0.370\\
+        Invertido & 0.1800 & 0.2025 & 0.2150 & 0.2140 & 0.2200 & 0.2500\\
+        Aleatorio & 0.1800 & 0.2025 & 0.2150 & 0.2310 & 0.2450 & 0.3100\\
+        \hline
+    \end{tabular}
+\end{table}
+\bigskip
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{t3r1.png}
+    \caption{\label{fig1}Tiempos de ejecución}
+    \label{fig:figura1}
+\end{figure}
+
+Con base en los datos de estadística descriptiva obtenidos a partir de los tiempos de ejecución, el orden que llevó más tiempo fué el original con un máximo de 0.370 segundos, y el de menor tiempo de ejecución fué el orden invertido con un máximo de 0.2500 segundos.
+\bigskip
+
+\bibliography{Dra.Elisa}
+\bibliographystyle{plainnat}
+
+
+\bigskip
+
+\end{document}
