@@ -149,14 +149,7 @@ geom_line(colour="red")  +geom_point( size=2, shape=21, fill="mediumpurple1", co
   theme_minimal()
 graphics.off()
 
-#En base a los resultados del "violin plot" podemos obersvar que mientras mayor sea el numero de funciones objetivo, 
-#mayor será el porcentaje de frentes de pareto entre la cantidad de soluciones existentes. Se pudiera inferir
-#que este resultado tiene como causa que al haber muchos funciones que se tienen que optimizar, las soluciones
-#existentes si bien no cumplen con algunas funciones en especifico, pudieran estar optimizando en gran manera alguna
-#otra, en cierta manera lo veo de esta forma, cada solución al menos le tiene que gustar a alguna función,
-#en terminos coloquiales, para cada roto, hay al menos un descosido.
 
-######################
 #Pruebas estadisticas de comparación de medias
 t.test(poncentajefrente[,1], poncentajefrente[,2])$p.value
 t.test(poncentajefrente[,1], poncentajefrente[,3])$p.value
@@ -165,5 +158,4 @@ t.test(poncentajefrente[,2], poncentajefrente[,3])$p.value
 t.test(poncentajefrente[,2], poncentajefrente[,4])$p.value
 t.test(poncentajefrente[,3], poncentajefrente[,4])$p.value
 
-#Mayoría de las pruebas realizadas muestran que las medias son estadisticamentes diferentes entre las 
-#diferentes cantidades de funciones objetivo
+
