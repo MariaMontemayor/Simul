@@ -1,0 +1,248 @@
+\documentclass[final,6p,times,twocolumn]{elsarticle}
+\makeatletter
+
+\renewenvironment{abstract}{\global\setbox\absbox=\vbox\bgroup
+  \hsize=\textwidth\def\baselinestretch{1}%
+  \noindent\unskip\textbf{Resumen}  % <--- Edit as necessary
+ \par\medskip\noindent\unskip\ignorespaces}
+ {\egroup}
+
+\def\keyword{%
+  \def\sep{\unskip, }%
+ \def\MSC{\@ifnextchar[{\@MSC}{\@MSC[2000]}}
+  \def\@MSC[##1]{\par\leavevmode\hbox {\it ##1~MSC:\space}}%
+  \def\PACS{\par\leavevmode\hbox {\it PACS:\space}}%
+  \def\JEL{\par\leavevmode\hbox {\it JEL:\space}}%
+  \global\setbox\keybox=\vbox\bgroup\hsize=\textwidth
+  \normalsize\normalfont\def\baselinestretch{1}
+  \parskip\z@
+  \noindent\textit{Palabras clave: }  % <--- Edit as necessary
+  \raggedright                         % Keywords are not justified.
+  \ignorespaces}
+
+
+
+\usepackage[spanish]{babel}
+
+\def\ps@pprintTitle{%
+     \let\@oddhead\@empty
+     \let\@evenhead\@empty
+     \def\@oddfoot{\footnotesize\itshape
+        \ifx\@journal\@empty   % <--- Edit as necessary
+       \else\@journal\fi\hfill\today}%
+     \let\@evenfoot\@oddfoot}
+
+%% The graphicx package provides the includegraphics command.
+\usepackage{graphicx}
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
+
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers after \end{frontmatter}.
+\usepackage{lineno}
+
+
+%% natbib.sty is loaded by default. However, natbib options can be
+%% provided with \biboptions{...} command. Following options are
+%% valid:
+
+%%   round  -  round parentheses are used (default)
+%%   square -  square brackets are used   [option]
+%%   curly  -  curly braces are used      {option}
+%%   angle  -  angle brackets are used    <option>
+%%   semicolon  -  multiple citations separated by semi-colon
+%%   colon  - same as semicolon, an earlier confusion
+%%   comma  -  separated by comma
+%%   numbers-  selects numerical citations
+%%   super  -  numerical citations as superscripts
+%%   sort   -  sorts multiple citations according to order in ref. list
+%%   sort&compress   -  like sort, but also compresses numerical citations
+%%   compress - compresses without sorting
+%%
+%% \biboptions{comma,round}
+
+% \biboptions{}
+
+%\journal{Journal Name}
+
+\begin{document}
+
+\begin{frontmatter}
+
+%% Title, authors and addresses
+
+\title{Simulación de una pandemia}
+
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for the associated footnote;
+%% use the fnref command within \author or \address for footnotes;
+%% use the fntext command for the associated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for the associated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%%
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \address{Address\fnref{label3}}
+%% \fntext[label3]{}
+
+
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{<author name>}
+%% \address[label1]{<address>}
+%% \address[label2]{<address>}
+
+\author{C. María Montemayor Palos}
+
+\address{Posgrado en Maestría en Ciencias de la Ingeniería con Orientación en Nanotecnología.}
+
+\address{Facultad de Ingeniería Mecánica y Eléctrica.}
+
+\address{Universidad Autónoma de Nuevo León.}
+
+\begin{abstract}
+%% Text of abstract
+El primer medio para lograr frenar la propagación del SARS-CoV-2 fue el distanciamiento social debido a la falta de una vacuna. Existen actualmente modelos matemáticos que simulan la propagación del virus para estudiar el impacto que tendrá en la población en una determinada región con cierto número de población y evitar así en mayor medida los altos índices de contagios. En el presente trabajo se pretende mostrar el efecto que tendrá en la población si se hace uso de cubrebocas, si cierto número de la población se vacuna gradualmente y los efectos secundarios que tendrán las personas vacunadas y no vacunadas, así como los efectos secundarios del SARS-CoV-2. 
+\end{abstract}
+
+\begin{keyword}
+Sistema multiagente \sep pandemia  \sep simulación \sep SARS-CoV-2 
+%% keywords here, in the form: keyword \sep keyword
+
+%% MSC codes here, in the form: \MSC code \sep code
+%% or \MSC[2008] code \sep code (2000 is the default)
+
+\end{keyword}
+
+\end{frontmatter}
+
+%%
+%% Start line numbering here if you want
+%%
+%\linenumbers
+
+%% main text
+\section{Introducción}
+Debido a la pandemia que se vive actualmente en el mundo, se recurre principalmente a medidas de intervención no farmacéuticas para frenar la propagación, como lo es el distanciamiento social, el uso del cubrebocas, lavado frecuente de manos y el uso de gel anti-bacterial. La propagación del virus depende de muchos factores que se deben tomar en cuenta ya que se pueden presentar diferentes escenarios, por ejemplo, en la ciudad de Nueva York hubo una propagación máxima seguida de una disminución repentina de los niveles de infección. En el estado de California tuvo una menor propagación de la infección antes del distanciamiento social \cite{KOMAROVA2021100463} generando un patrón diferente.
+Esta crisis del COVID-19 ha llamado la atención para generar modelos matemáticos que simulen lo más parecido a la realidad previniendo así los altos contagios y cuantificando los efectos de la pandemia para alertar a las autoridades gubernamentales, tomando las medidas precautorias correspondientes. Estos modelos se abordan para múltiples escenarios de la pandemia, ayudando así a evaluar la eficacia de las vacunas, formular mejores estrategias para la cuarentena, estimar las camas o equipo médico que se requiera en los hospitales, entre otros \cite{JORGE2021100465}.
+
+Es por esto que se pretende estudiar los efectos de propagación de la infección bajo ciertas condiciones dentro de la simulación empleando el sistema multiagente y el modelo SIR, los cuales se detallan en la sección \ref{S:2}, para mitigar las oleadas del virus entre otros patógenos potencialmente pandémicos.
+
+\label{S:1}
+
+
+%\begin{itemize}
+%\item Bullet point one
+%\item Bullet point two
+%\end{itemize}
+%
+%\begin{enumerate}
+%\item Numbered list item one
+%\item Numbered list item two
+%\end{enumerate}
+
+
+
+
+
+%\begin{table}[h]
+%\centering
+%\begin{tabular}{l l l}
+%\hline
+%\textbf{Treatments} & \textbf{Response 1} & \textbf{Response 2}\\
+%\hline
+%Treatment 1 & 0.0003262 & 0.562 \\
+%Treatment 2 & 0.0015681 & 0.910 \\
+%Treatment 3 & 0.0009271 & 0.296 \\
+%\hline
+%\end{tabular}
+%\caption{Table caption}
+%\end{table}
+
+
+
+
+%\begin{figure}[h]
+%\centering\includegraphics[width=0.4\linewidth]{placeholder}
+%\caption{Figure caption}
+%\end{figure}
+
+
+\section{Antecedentes}
+No existe hasta el momento una definición fija para la palabra agente en el campo de inteligencia artificial debido a que los agentes se pueden presentar en muchas formas físicas basados en el dominio de aplicación, sin embargo, existe una definición más aceptada que es la que describen Russell y Norvig. Ellos definen a un agente \cite{Parasumanna} como una entidad autónoma flexible capaz de percibir el entorno a través de sensores conectados a él. Esta definición no cubre toda la gama de características que debe poseer un agente. Algunos de los rasgos importantes que diferencian a un agente son la interacción del agente con el medio ambiente, la autonomía, es decir, la capacidad que tiene el agente de tomar sus propias decisiones de forma independiente sin intervención externa. Además de su capacidad de respuesta,en la cual puede percibir las condiciones presentes del medio ambiente y responder a él de manera oportuna para tener en cuenta cualquier cambio en el medio ambiente, esto es un factor importante en aplicaciones en tiempo real. También otros aspectos como su movilidad y comportamiento colaborativo, entre otras. 
+
+\label{S:2}
+
+\subsection{Sistema multiagente}
+Así como no existe una definición única para la palabra agente, tampoco existe una definición única para el término de sistema multiagente, pero las principales definiciones aceptadas comparten ciertos puntos en común tales como la forma en que los agentes interactúan en un sistema a través del entorno compartido o a través de mensajes estructurados. Una característica importante para definir un sistema multiagente es su autonomía que permite encontrar la mejor solución a problemas considerando que, los sistemas autónomos están autodirigidos hacia un objetivo en el sentido de que no requieren control externo, sino que se rigen por leyes y estrategias que claramente marcan la diferencia entre los sistemas tradicionales y de múltiples agentes. Las normas son un ingrediente fundamental de los sistemas multiagentes que rigen el comportamiento esperado hacia una situación específica. A través de las normas se representan los comportamientos deseables para una población de una comunidad natural o artificial. De hecho, generalmente se entienden como reglas que indican acciones que se esperan llevar a cabo, que son obligatorias, prohibitivas o permisivas basadas en un conjunto específico de hechos \cite{Alfredo}.
+
+\subsection{Modelo SIR}
+El modelo SIR \cite{COOPER2020110057} es un sistema dinámico que está integrado por tres ecuaciones diferenciales ordinarias (EDO) las cuales describen la evolución en el tiempo de las siguientes tres poblaciones:
+\begin{enumerate}
+    \item Personas susceptibles, S: Son aquellas personas que no están infectadas, sin embargo, podrían infectarse.
+Un individuo susceptible puede infectarse o permanecer susceptible. A medida que el virus se propaga desde su fuente o se producen nuevas fuentes, más personas se infectarán, por lo que la población susceptible aumentará durante un período de 80 (período de aumento).
+    \item Personas infectadas, I: Son aquellas personas que ya han sido infectadas por el virus y pueden transmitirlo a aquellas personas que son susceptibles. Un individuo infectado puede permanecer infectado y puede ser eliminado de la población infectada para recuperarse o morir.
+    \item Personas recuperadas, R: son aquellos individuos que se han recuperado del virus y se supone que son inmunes.
+\end{enumerate}
+
+En la figura 1 se muestra los cambios de los agentes.
+
+\begin{figure} [h!]
+\label{sir}
+\centering
+\includegraphics[scale=0.2]{SIR.png}
+\caption{Modelo SIR.}
+\end{figure}
+
+
+
+
+
+\label{S:2.1}
+
+
+
+%% The Appendices part is started with the command \appendix;
+%% appendix sections are then done as normal sections
+%% \appendix
+
+%% \section{}
+%% \label{}
+
+%% References
+%%
+%% Following citation commands can be used in the body text:
+%% Usage of \cite is as follows:
+%%   \cite{key}          ==>>  [#]
+%%   \cite[chap. 2]{key} ==>>  [#, chap. 2]
+%%   \citet{key}         ==>>  Author [#]
+
+\section{Trabajos relacionados}
+\label{S:trela}
+Cooper \cite{COOPER2020110057} implementó el modelo de sistema multiagente para la pandemia que se está viviendo a nivel mundial siendo el SIR para personas susceptibles, infectadas y individuos eliminados apegándose a la realidad de la contingencia debido al fallecimiento de los individuos. Además, de que supuso que la escala de tiempo del modelo SIR es lo suficientemente corta como para que los nacimientos y las muertes (distintas de las causadas por el virus) se puedan descuidar y que el número de muertes por el virus es pequeño en comparación con la población viva.
+
+
+\section{Solución propuesta}
+\label{S:Sprop}
+
+
+\subsection{Trabajo futuro}
+
+\clearpage
+
+\bibliographystyle{elsarticle-num-names}
+\bibliography{Referencias}
+
+
+
+
+\end{document}
