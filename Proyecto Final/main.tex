@@ -1,4 +1,6 @@
 \documentclass[final,6p,times,twocolumn]{elsarticle}
+\usepackage{url}
+\usepackage{doi}
 \makeatletter
 
 \renewenvironment{abstract}{\global\setbox\absbox=\vbox\bgroup
@@ -111,7 +113,7 @@
 
 \begin{abstract}
 %% Text of abstract
-El primer medio para lograr frenar la propagación del SARS-CoV-2 fue el distanciamiento social debido a la falta de una vacuna. Existen actualmente modelos matemáticos que simulan la propagación del virus para estudiar el impacto que tendrá en la población en una determinada región con cierto número de población y evitar así en mayor medida los altos índices de contagios. En el presente trabajo se pretende mostrar el efecto que tendrá en la población si se hace uso de cubrebocas, si cierto número de la población se vacuna gradualmente y los efectos secundarios que tendrán las personas vacunadas y no vacunadas, así como los efectos secundarios del SARS-CoV-2. 
+El primer medio para lograr frenar la propagación del SARS-CoV-2 fue el distanciamiento social debido a la falta de una vacuna. Existen actualmente modelos matemáticos que simulan la propagación del virus para estudiar el impacto que tendrá en la población en una determinada región con cierto número de población y evitar así en mayor medida los altos índices de contagios. En el presente trabajo se pretende mostrar el efecto que tendrá en la población si se hace uso de cubrebocas, si cierto número de la población se vacuna gradualmente y los efectos secundarios que tendrán las personas vacunadas y no vacunadas, así como los efectos secundarios del SARS-CoV-2. Se obtuvieron los resultados esperados al implementar el uso del cubrebocas disminuyendo así la cantidad de contagios de los agentes. 
 \end{abstract}
 
 \begin{keyword}
@@ -178,7 +180,7 @@ Es por esto que se pretende estudiar los efectos de propagación de la infecció
 
 
 \section{Antecedentes}
-No existe hasta el momento una definición fija para la palabra agente en el campo de inteligencia artificial debido a que los agentes se pueden presentar en muchas formas físicas basados en el dominio de aplicación, sin embargo, existe una definición más aceptada que es la que describen Russell y Norvig. Ellos definen a un agente \cite{Parasumanna} como una entidad autónoma flexible capaz de percibir el entorno a través de sensores conectados a él. Esta definición no cubre toda la gama de características que debe poseer un agente. Algunos de los rasgos importantes que diferencian a un agente son la interacción del agente con el medio ambiente, la autonomía, es decir, la capacidad que tiene el agente de tomar sus propias decisiones de forma independiente sin intervención externa. Además de su capacidad de respuesta,en la cual puede percibir las condiciones presentes del medio ambiente y responder a él de manera oportuna para tener en cuenta cualquier cambio en el medio ambiente, esto es un factor importante en aplicaciones en tiempo real. También otros aspectos como su movilidad y comportamiento colaborativo, entre otras. 
+No existe hasta el momento una definición fija para la palabra agente en el campo de inteligencia artificial debido a que los agentes se pueden presentar en muchas formas físicas basados en el dominio de aplicación, sin embargo, existe una definición más aceptada que es la que describen Russell y Norvig \cite{Parasumanna}. Ellos definen a un agente como una entidad autónoma flexible capaz de percibir el entorno a través de sensores conectados a él. Esta definición no cubre toda la gama de características que debe poseer un agente. Algunos de los rasgos importantes que diferencian a un agente son la interacción del agente con el medio ambiente, la autonomía, es decir, la capacidad que tiene el agente de tomar sus propias decisiones de forma independiente sin intervención externa. Además de su capacidad de respuesta,en la cual puede percibir las condiciones presentes del medio ambiente y responder a él de manera oportuna para tener en cuenta cualquier cambio en el medio ambiente, esto es un factor importante en aplicaciones en tiempo real. También otros aspectos como su movilidad y comportamiento colaborativo, entre otras. 
 
 \label{S:2}
 
@@ -233,9 +235,36 @@ Cooper \cite{COOPER2020110057} implementó el modelo de sistema multiagente para
 
 \section{Solución propuesta}
 \label{S:Sprop}
+Se trabaja con el programa R versión 4.0.4 \cite{R} para Windows.
+El entorno en el que se encuentran los agentes es un cuadrado con medidas de 1.5 $\times$ 1.5 con una distribución de posiciones al azar. Se considera dos experimentos diferentes para la realización de la simulación, en cada uno se distribuyen 50 agentes en un tiempo de 100. En la figura \ref{fig2} se muestra el estado inicial de los agentes en el entorno evolucionando conforme pasa el tiempo, donde los agentes de color rojo son los infectados, los verdes son los susceptibles y los diamentes invertidos son los agentes que están vacunados. En la figura \ref{fig3} se puede apreciar la evolución de los contagios conforme pasa el tiempo. El desarrollo del algoritmo se basa en el implementado por Schaeffer \cite{codigo}.
 
+\begin{figure} [h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{p6_t01.png}
+    \caption{Evolución de los contagios de los agentes.}
+    \label{fig2}
+\end{figure}
 
+\begin{figure} [h!]
+    \centering
+    \includegraphics[width=0.3\textwidth]{p6_t50.png}
+    \caption{Evolución de los contagios de los agentes.}
+    \label{fig3}
+\end{figure}
+
+En el primer experimento, los agentes pueden ser vacunados con una probabilidad \texttt{pv} y estos adquieren el estado de recuperado y no puede ser infectado nuevamente. En el segundo experimento, los agentes tambien pueden ser vacunados, y se incluye que los agentes tengan una probabilidad al azar de que pueden usar o no un cubrebocas para disminuir los contagios. La figura \ref{fig4} muestra el comportamiento de la pandemia en una sola corrida.
+
+\begin{figure} [h!]
+    \centering
+    \includegraphics[width=0.5\textwidth]{violin.png}
+    \caption{Gráfica de violín del porcentaje máximo de infectados variando la probabilidad de vacuna.}
+    \label{fig4}
+\end{figure}
+
+\section{Conclusiones}
+Se realizó una simulación utilizando como base el modelo SIR para verficar si había un cambio significativo si los agentes contagiados y no contagiados portaban cubrebocas. Efectivamente como se puede observar en los diagramas, disminuye la probabilidad de contagios conforme la población se vacuna y hace uso correcto del cubrebocas. Así mismo existen las probabilidades de que tanto agentes contagiados y agentes vacunados presenten reacciones secundarias (como el incremento de enfermedades crónicas) debido al virus y a la vacuna, poniendo en riesgo la salud de los agentes.
 \subsection{Trabajo futuro}
+Como trabajo a futuro se puede considerar la implementación de los aspectos mencionados anteriormente, así como también especificar los efectos secundarios que se pueden adquirir debido a la vacuna y al virus, que los agentes tengan puntos de reunión simulando que ven amistades o familiares para ver un comportamiento más realista de la pandemia.
 
 \clearpage
 
